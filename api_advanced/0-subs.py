@@ -1,17 +1,15 @@
 #!/usr/bin/python3
-
+"""Return number of subscribers for a given subreddit"""
 import requests
 
+
 def number_of_subscribers(subreddit):
-    """
-    Queries the Reddit API and returns the number of subscribers for a given subreddit.
-    If not a valid subreddit, returns 0.
-    """
-    headers = {'User-Agent': 'my-app/0.0.1'}
-    url = f'https://www.reddit.com/r/{subreddit}/about.json'
-
+    """Return the number of subscribers """
+    url = "https://www.reddit.com/r/{}/about.json" \
+        .format(subreddit)
+    headers = {'User-Agent': 'My User Agent 1.0'}
     response = requests.get(url, headers=headers)
-
-    # If the response status code is 404, the subreddit is not valid
-    if response.status_code == 404:
-        return 0
+    if response.status_code == 200:
+        return response.json().get('data') \
+            .get('subscribers')
+    return 0
