@@ -1,17 +1,23 @@
 #!/usr/bin/python3
-"""Return the number of subscribers of a given subreddit"""
-
+'''
+    this module contains the function number_of_subscribers
+'''
 import requests
+from sys import argv
 
 
 def number_of_subscribers(subreddit):
-    """function that fetches number_of_subscribers"""
-    URL = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    HEADERS = {"User-Agent": "PostmanRuntime/7.35.0"}
-
+    '''
+        returns the number of subscribers for a given subreddit
+    '''
+    user = {'User-Agent': 'Lizzie'}
+    url = requests.get('https://www.reddit.com/r/{}/about.json'
+                       .format(subreddit), headers=user).json()
     try:
-        RESPONSE = requests.get(URL, headers=HEADERS, allow_redirects=False)
-        return RESPONSE.json().get("data").get("subscribers")
-
+        return url.get('data').get('subscribers')
     except Exception:
         return 0
+
+
+if __name__ == "__main__":
+    number_of_subscribers(argv[1])
